@@ -1,6 +1,6 @@
 <template>
   <fieldset class="form__block">
-    <legend class="form__legend">Цена</legend>
+    <legend class="form__legend">{{ legend }}</legend>
     <slot />
   </fieldset>
 </template>
