@@ -5,13 +5,15 @@
       :type="inputType"
       :name="inputName"
       :value="modelValue"
-      @input.prevent="$emit('update:modelValue', $event.target.value)"
+      @input.prevent="doEventHandler($event.target.value)"
     />
     <span class="form__value">{{ inputLabel }}</span>
   </label>
 </template>
 
 <script>
+import { ref } from 'vue';
+
 export default {
   name: 'FilterInput',
 
@@ -35,5 +37,19 @@ export default {
   },
 
   emits: ['update:modelValue'],
+
+  setup(props, { emit: $emit }) {
+    const timeDelay = 300;
+    const timerId = ref(null);
+
+    const doEventHandler = (inputValue) => {
+      clearTimeout(timerId.value);
+      timerId.value = setTimeout(() => $emit('update:modelValue', inputValue), timeDelay);
+    };
+
+    return {
+      doEventHandler,
+    };
+  },
 };
 </script>
