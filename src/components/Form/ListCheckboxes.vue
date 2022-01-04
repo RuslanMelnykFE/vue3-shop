@@ -7,8 +7,7 @@
           type="checkbox"
           :name="`${checkboxName}[]`"
           :value="checkboxData.value"
-          :checked="modelValue === checkboxData.value"
-          @input.prevent="$emit('update:modelValue', $event.target.value)"
+          @input.prevent="$emit('changeCheckboxValues')"
         />
         <span class="check-list__desc">
           {{ checkboxData.value }}
@@ -25,8 +24,10 @@ export default {
 
   props: {
     modelValue: {
-      type: [String, Number],
-      default: '',
+      type: [Array, Object],
+      default() {
+        return {};
+      },
     },
     checkboxName: {
       type: String,
@@ -40,6 +41,6 @@ export default {
     },
   },
 
-  emits: ['update:modelValue'],
+  emits: ['changeCheckboxValues'],
 };
 </script>

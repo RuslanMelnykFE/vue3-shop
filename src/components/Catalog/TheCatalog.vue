@@ -4,6 +4,7 @@
       v-model:minPrice.number="minPrice"
       v-model:maxPrice.number="maxPrice"
       v-model:categoryId="categoryId"
+      v-model:categoryProps="categoryProps"
       @loadProducts="doLoadProducts"
     />
 
@@ -35,9 +36,10 @@ export default defineComponent({
 
     const categoryId = ref(null);
     const page = ref(1);
-    const limitInPage = ref(3);
+    const limitInPage = ref(12);
     const minPrice = ref(null);
     const maxPrice = ref(null);
+    const categoryProps = ref({});
 
     const doLoadProducts = () => {
       const productsParams = {
@@ -46,6 +48,7 @@ export default defineComponent({
         limit: limitInPage.value || null,
         minPrice: minPrice.value || null,
         maxPrice: maxPrice.value || null,
+        categoryProps: Object.keys(categoryProps.value).length ? categoryProps.value : null,
       };
 
       $store.dispatch('products/getProducts', productsParams);
@@ -61,6 +64,7 @@ export default defineComponent({
       limitInPage,
       minPrice,
       maxPrice,
+      categoryProps,
 
       doLoadProducts,
     };

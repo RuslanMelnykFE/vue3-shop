@@ -1,5 +1,5 @@
 import { FilterError, FilterService } from '@/services/api/filter.service';
-import saveRequestError from '@/services/store.service';
+import { saveRequestError } from '@/services/store.service';
 
 const filter = {
   namespaced: true,

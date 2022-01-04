@@ -1,5 +1,5 @@
 import { ProductsError, ProductsService } from '@/services/api/products.service';
-import saveRequestError from '@/services/store.service';
+import { saveRequestError, formatteParams } from '@/services/store.service';
 
 const products = {
   namespaced: true,
@@ -32,7 +32,8 @@ const actions = {
   async getProducts(context, params) {
     const { commit } = context;
     try {
-      const { items, pagination } = await ProductsService.getProducts(params);
+      const formattedParams = formatteParams(params);
+      const { items, pagination } = await ProductsService.getProducts(formattedParams);
       commit('updateProducts', items);
       commit('updatePagination', pagination);
 
