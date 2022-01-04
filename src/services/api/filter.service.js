@@ -25,7 +25,7 @@ const FilterService = {
     return responseData;
   },
   async getProductCategory(categoryId) {
-    const responseData = await getData(`/productCategories/${categoryId}`);
+    const responseData = await getData(`/productCategories${categoryId}`);
     return responseData;
   },
   async getColors() {
