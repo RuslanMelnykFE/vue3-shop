@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'FilterFieldset',
+  name: 'FormFieldset',
 
   props: {
     legend: {

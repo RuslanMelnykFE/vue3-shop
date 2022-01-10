@@ -191,7 +191,9 @@
           <p class="cart__desc">
             Мы&nbsp;посчитаем стоимость доставки на&nbsp;следующем этапе
           </p>
-          <p class="cart__price">Итого: <span>32 970 ₽</span></p>
+          <p class="cart__price">
+            Итого: <span>{{ totalCostProducts }} у.е.</span>
+          </p>
 
           <button class="cart__button button button--primery" type="submit">
             Оформить заказ
@@ -203,6 +205,9 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import { formatedNumber } from '@/services/formatting.service';
 import BaseLayout from '@/components/Layout/BaseLayout.vue';
 
 export default {
@@ -210,6 +215,19 @@ export default {
 
   components: {
     BaseLayout,
+  },
+
+  setup() {
+    const $store = useStore();
+
+    const totalCostProducts = computed(() => {
+      const totalCost = $store.getters['basket/totalCostProducts'];
+      return formatedNumber(totalCost);
+    });
+
+    return {
+      totalCostProducts,
+    };
   },
 };
 </script>

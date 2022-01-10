@@ -7,8 +7,8 @@
           type="radio"
           name="color"
           :value="colorData.code"
-          :checked="modelValue === colorData.code"
-          @input.prevent="$emit('update:modelValue', $event.target.value)"
+          :checked="color === colorData.code"
+          v-model="color"
         />
         <span class="colors__value" :style="{ backgroundColor: colorData.code }"> </span>
       </label>
@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { computed, toRefs } from 'vue';
+
 export default {
   name: 'ListRadioInputsColors',
 
@@ -34,5 +36,16 @@ export default {
   },
 
   emits: ['update:modelValue'],
+
+  setup(props, { emit: $emit }) {
+    const { modelValue } = toRefs(props);
+
+    const color = computed({
+      get: () => modelValue.value,
+      set: (val) => $emit('update:modelValue', val),
+    });
+
+    return { color };
+  },
 };
 </script>

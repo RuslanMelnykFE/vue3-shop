@@ -66,9 +66,9 @@
 
 <script>
 import { defineComponent, ref, watch } from 'vue';
-import useColors from '@/hooks/useColors';
-import useProductCategories from '@/hooks/useProductCategories';
-import FilterFieldset from '@/components/Form/FilterFieldset.vue';
+import { useColors } from '@/composables/useColors';
+import useProductCategories from '@/composables/useProductCategories';
+import FilterFieldset from '@/components/Form/FormFieldset.vue';
 import FilterInput from '@/components/Form/FilterInput.vue';
 import BaseSelect from '@/components/Form/BaseSelect.vue';
 import ListInputColors from '@/components/Form/ListRadioInputsColors.vue';
