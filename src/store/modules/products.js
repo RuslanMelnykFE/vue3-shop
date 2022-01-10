@@ -7,6 +7,8 @@ const products = {
     products: null,
     pagination: null,
     productsError: null,
+    product: null,
+    productError: null,
   }),
 };
 
@@ -14,6 +16,8 @@ const getters = {
   products: (state) => state.products,
   pagination: (state) => state.pagination,
   productsError: (state) => state.productsError,
+  product: (state) => state.product,
+  productError: (state) => state.productError,
 };
 
 const mutations = {
@@ -25,6 +29,12 @@ const mutations = {
   },
   updateProductsError(state, errorData) {
     state.productsError = errorData;
+  },
+  updateProduct(state, productData) {
+    state.product = productData;
+  },
+  updateProductError(state, errorData) {
+    state.productError = errorData;
   },
 };
 
@@ -40,6 +50,19 @@ const actions = {
       return true;
     } catch (error) {
       saveRequestError(commit, 'updateProductsError', error, ProductsError);
+      return false;
+    }
+  },
+
+  async getProduct(context, productId) {
+    const { commit } = context;
+
+    try {
+      const productData = await ProductsService.getProduct(productId);
+      commit('updateProduct', productData);
+      return true;
+    } catch (error) {
+      saveRequestError(commit, 'updateProductError', error, ProductsError);
       return false;
     }
   },

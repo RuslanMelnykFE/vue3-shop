@@ -20,13 +20,14 @@
     </router-link>
   </h3>
 
-  <span class="catalog__price"> {{ itemData.price }} у.е </span>
+  <span class="catalog__price"> {{ productPrice }} у.е </span>
 
   <ListInputColors class="colors--black" v-model="selectedColor" :colors-list="colorsList" />
 </template>
 
 <script>
 import { computed, ref, toRefs } from 'vue';
+import { formatedNumber } from '@/services/formatting.service';
 import ListInputColors from '@/components/Form/ListRadioInputsColors.vue';
 
 export default {
@@ -53,10 +54,12 @@ export default {
 
       return colors.reduce((accum, item) => [...accum, item.color], []);
     });
+    const productPrice = computed(() => formatedNumber(itemData.value.price));
 
     return {
       selectedColor,
       colorsList,
+      productPrice,
     };
   },
 };

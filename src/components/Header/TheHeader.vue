@@ -20,13 +20,24 @@
         <svg width="30" height="21" fill="currentColor">
           <use xlink:href="#icon-cart"></use>
         </svg>
-        <span class="header__count" aria-label="Количество товаров">3</span>
+        <span class="header__count" aria-label="Количество товаров">{{ amountsProducts }}</span>
       </router-link>
     </div>
   </header>
 </template>
+
 <script>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+
 export default {
   name: 'TheHeader',
+
+  setup() {
+    const $store = useStore();
+    const amountsProducts = computed(() => $store.getters['basket/amountsProducts']);
+
+    return { amountsProducts };
+  },
 };
 </script>

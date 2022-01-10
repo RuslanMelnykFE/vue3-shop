@@ -9,6 +9,11 @@ class ProductsError extends Error {
   }
 }
 
+const initProductsError = (error) => {
+  const { status, data } = error.response;
+  throw new ProductsError(status, data.error.message);
+};
+
 const ProductsService = {
   async getProducts(params) {
     const requestData = {
@@ -21,8 +26,17 @@ const ProductsService = {
       const { data } = await ApiService.customRequest(requestData);
       return data;
     } catch (error) {
-      const { status, data } = error.response;
-      throw new ProductsError(status, data.error.message);
+      initProductsError(error);
+      return false;
+    }
+  },
+  async getProduct(productId) {
+    try {
+      const { data } = await ApiService.get(`/products/${productId}`);
+      return data;
+    } catch (error) {
+      initProductsError(error);
+      return false;
     }
   },
 };
