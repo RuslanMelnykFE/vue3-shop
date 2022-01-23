@@ -1,10 +1,25 @@
 import { saveRequestError } from '@/services/store.service';
 import { BasketError, BasketService } from '@/services/api/basket.service';
 
+const asyncBasketAction = async (context, productData, method) => {
+  const { commit, rootGetters } = context;
+  const accessKey = rootGetters['users/accessKey'];
+
+  try {
+    const { items } = await BasketService[method](accessKey, productData);
+    commit('updateBasketProducts', items);
+    return true;
+  } catch (error) {
+    saveRequestError(commit, 'updateBasketError', error, BasketError);
+    return false;
+  }
+};
+
 const basket = {
   namespaced: true,
   state: () => ({
     basketProducts: null,
+    basketError: null,
   }),
 };
 
@@ -32,6 +47,9 @@ const mutations = {
   updateBasketProducts(state, productsData) {
     state.basketProducts = productsData;
   },
+  updateBasketError(state, errorData) {
+    state.basketError = errorData;
+  },
 };
 
 const actions = {
@@ -49,18 +67,16 @@ const actions = {
     }
   },
 
-  async addProductToBasket(context, productData) {
-    const { commit, rootGetters } = context;
-    const accessKey = rootGetters['users/accessKey'];
+  addProductToBasket(context, productData) {
+    asyncBasketAction(context, productData, 'addToBasket');
+  },
 
-    try {
-      const { items } = await BasketService.addToBasket(accessKey, productData);
-      commit('updateBasketProducts', items);
-      return true;
-    } catch (error) {
-      saveRequestError(commit, 'updateBasketProducts', error, BasketError);
-      return false;
-    }
+  changeProductQuantity(context, productData) {
+    asyncBasketAction(context, productData, 'changeBasket');
+  },
+
+  deleteProduct(context, productData) {
+    asyncBasketAction(context, productData, 'deleteFromBasket');
   },
 };
 

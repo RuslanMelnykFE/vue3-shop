@@ -15,7 +15,6 @@ const initBasketError = (error) => {
 };
 
 const asyncBasket = async (method, url, bodyData) => {
-  console.log('bodyData: ', bodyData);
   try {
     const { data } = await ApiService[method](url, bodyData);
     return data;
@@ -48,7 +47,22 @@ const BasketService = {
   },
 
   async deleteFromBasket(accessKey, product) {
-    return asyncBasket('delete', `${this.url}${accessKey}`, product);
+    const requestData = {
+      method: 'delete',
+      url: '/baskets/products',
+      data: product,
+      params: {
+        userAccessKey: accessKey,
+      },
+    };
+
+    try {
+      const { data } = await ApiService.customRequest(requestData);
+      return data;
+    } catch (error) {
+      initBasketError(error);
+      return false;
+    }
   },
 };
 
